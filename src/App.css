@@ -1,0 +1,130 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.title{
+  color: #DA291C;
+  font-size:36px;
+  font-weight:700 ;
+  align-items: center;
+  align-self: center;
+  /* margin-top: 20px; */
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 80%;         
+  padding: 10px;     
+  box-sizing: border-box;
+  place-self: center;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.header-title {
+  color: #3C3C3C;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 100%;
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+
+.faq-answer {
+  color: #3C3C3C;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 100%;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.faq-question {
+  color: #3C3C3C;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 100%;
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+
+.header-answer {
+  color: #3C3C3C;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 100%;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.container-questions{
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: left;
+  text-align: left;
+  width: 100%;         
+  padding: 10px;     
+  box-sizing: border-box;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.container-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: left;
+  text-align: left;
+  width: 100%;         
+  padding: 10px;     
+  box-sizing: border-box;
+  margin-top: 20px;
+  margin-bottom: 20px; 
+}
+
+  .red-button {
+    @apply px-4 rounded-full border-[3px] w-[15rem] h-10 text-[#DA291C] border-[#DA291C];
+    
+        -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -ms-transition: all 0.5s;
+    transition: all 0.5s;
+    box-shadow: 0px -4px 10px 0px rgba(45, 45, 45, 0) inset,
+                0px 4px 14px 0px rgba(131, 23, 15, 0);
+  }
+
+   .red-button:hover {
+    @apply scale-105 bg-gradient-to-r from-[#DA291C] to-[#B52217] text-white shadow-[inset_0px_-4px_6px_0px_rgba(45,45,45,0.2),_0px_6px_24px_0px_rgba(131,23,15,0.74)] border-0;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .red-button-shadow:hover {
+    box-shadow: 0px -4px 6px 0px rgba(45, 45, 45, 0.2) inset, 0px 6px 24px 0px rgba(131, 23, 15, 0.74);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .input-checker{
+    max-width: 360px;
+    width: 80%;
+    height: 40px;
+    border-radius: 12px;
+    border: 1px solid #BBBBBB;
+    text-align: center;
+  }
+
+  .container-checker{
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;         
+    padding: 10px;     
+    box-sizing: border-box;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
