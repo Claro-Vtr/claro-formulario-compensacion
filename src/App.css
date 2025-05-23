@@ -128,3 +128,30 @@
     margin-top: 20px;
     margin-bottom: 20px;
   }
+
+  .container-error{
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;         
+    padding: 10px;     
+    box-sizing: border-box;
+    margin-top: -20px;
+    margin-bottom: 20px;   
+
+  }
+
+  .label-Info{
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 100%;
+    margin-top: 20px;
+    margin-bottom: 0.5rem;
+    text-align: left;
+  }
+
+  .property-text{
+  float: left;
+  }
+
