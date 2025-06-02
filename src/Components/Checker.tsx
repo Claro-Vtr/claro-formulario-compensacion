@@ -60,7 +60,7 @@ const Checker = () => {
 
     const FormattedId = FormatID(value);
     setRutInput(FormattedId);
-    setErrorMessage(""); // limpiar mensaje al escribir
+    setErrorMessage(""); 
 
     if (mostrarFormulario && !validateChileanId(FormattedId)) {
       setMostrarFormulario(false);
@@ -86,7 +86,7 @@ const Checker = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container-compensacion">
       <div className="container-checker flex flex-col sm:flex-row gap-4">
         <input
           className="input-checker"

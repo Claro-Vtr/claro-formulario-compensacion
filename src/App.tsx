@@ -6,7 +6,7 @@ import Faqs from './Components/Faqs'
 function App() {
   return (
     <>
-    <div >
+    <div className="flex flex-col items-center justify-center min-h-screen px-4">
       <Header />
       <Checker />
       <Faqs />

@@ -33,14 +33,62 @@ const InfoAccount: React.FC<InfoAccountProps> = ({ rut }) => {
     politica: false,
   });
 
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+  const validateField = (name: string, value: string) => {
+    let message = "";
+
+    if (!value.trim()) {
+      message = "Este campo es obligatorio.";
+    } else {
+      if (name === "correo" && !/\S+@\S+\.\S+/.test(value)) {
+        message = "Correo no válido.";
+      }
+      if (name === "telefono" && !/^\d{9}$/.test(value)) {
+        message = "Debe tener 9 dígitos.";
+      }
+      if (name === "numeroCuenta" && !/^\d{4,}$/.test(value)) {
+        message = "Debe tener al menos 4 dígitos.";
+      }
+    }
+
+    setErrors((prev) => ({ ...prev, [name]: message }));
+  };
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const { name, type, value, checked } = e.target as HTMLInputElement;
+    const target = e.target as HTMLInputElement | HTMLSelectElement;
+    const { name, type, value } = target;
+    const fieldValue =
+      type === "checkbox" ? (target as HTMLInputElement).checked : value;
+
     setFormData((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: fieldValue,
     }));
+
+    if (type !== "checkbox") validateField(name, fieldValue as string);
+  };
+
+  const isFormValid = () => {
+    const requiredFields: (keyof FormData)[] = [
+      "nombre",
+      "correo",
+      "telefono",
+      "banco",
+      "tipoCuenta",
+      "numeroCuenta",
+    ];
+
+    return (
+      requiredFields.every((field) => {
+        const value = formData[field];
+        return (
+          typeof value === "string" && value.trim() !== "" && !errors[field]
+        );
+      }) && formData.politica
+    );
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -73,24 +121,18 @@ const InfoAccount: React.FC<InfoAccountProps> = ({ rut }) => {
         response.ok &&
         data.mensaje?.includes("Datos insertados correctamente")
       ) {
-        console.log("✔️ Enviado con éxito:", data);
         setIsSuccessfulRegistration(true);
       } else {
-        console.error("❌ Error al enviar:", data);
         setErrorMessage(data?.mensaje || "Error desconocido");
         setIsInvalidRegistration(true);
       }
     } catch (error) {
-      console.error("❌ Error en fetch:", error);
       setErrorMessage("No se pudo conectar al servidor.");
       setIsInvalidRegistration(true);
     }
   };
 
-  if (isSuccessfulRegistration) {
-    return <SuccessfulRegistration />;
-  }
-
+  if (isSuccessfulRegistration) return <SuccessfulRegistration />;
   if (isInvalidRegistration) {
     return (
       <InvalidRegistration
@@ -156,6 +198,9 @@ const InfoAccount: React.FC<InfoAccountProps> = ({ rut }) => {
           <option value="tapp">TAPP Caja Los Andes</option>
           <option value="tenpo">TENPO Prepago</option>
         </select>
+        {errors.banco && (
+          <span className="text-red-500 text-xs">{errors.banco}</span>
+        )}
       </div>
 
       <div className="w-full">
@@ -168,6 +213,9 @@ const InfoAccount: React.FC<InfoAccountProps> = ({ rut }) => {
           onChange={handleChange}
           className="w-full border rounded-xl px-4 py-2"
         />
+        {errors.nombre && (
+          <span className="text-red-500 text-xs">{errors.nombre}</span>
+        )}
       </div>
 
       <div className="w-full">
@@ -183,10 +231,13 @@ const InfoAccount: React.FC<InfoAccountProps> = ({ rut }) => {
           <option value="vista">Cuenta Vista</option>
           <option value="ahorro">Cuenta de Ahorro</option>
         </select>
+        {errors.tipoCuenta && (
+          <span className="text-red-500 text-xs">{errors.tipoCuenta}</span>
+        )}
       </div>
 
       <div className="w-full">
-        <label className="label-Info">Correo electrónico de contacto</label>
+        <label className="label-Info">Correo electrónico</label>
         <input
           type="email"
           name="correo"
@@ -195,6 +246,9 @@ const InfoAccount: React.FC<InfoAccountProps> = ({ rut }) => {
           onChange={handleChange}
           className="w-full border rounded-xl px-4 py-2"
         />
+        {errors.correo && (
+          <span className="text-red-500 text-xs">{errors.correo}</span>
+        )}
       </div>
 
       <div className="w-full">
@@ -202,29 +256,48 @@ const InfoAccount: React.FC<InfoAccountProps> = ({ rut }) => {
         <input
           type="text"
           name="numeroCuenta"
+          inputMode="numeric"
           placeholder="Ingresa el número de la cuenta bancaria"
           value={formData.numeroCuenta}
-          onChange={handleChange}
+          onChange={(e) => {
+            const onlyNums = e.target.value.replace(/\D/g, "");
+            setFormData((prev) => ({ ...prev, numeroCuenta: onlyNums }));
+            validateField("numeroCuenta", onlyNums); // Si ya la estás usando
+          }}
           className="w-full border rounded-xl px-4 py-2"
         />
+        {errors.numeroCuenta && (
+          <span className="text-red-500 text-xs">{errors.numeroCuenta}</span>
+        )}
         <span className="text-gray-500 text-xs mt-1 block">
-          *El número de cuenta bancaria debe estar asociado al RUT del titular
+          *Debe estar asociada al RUT del titular
         </span>
       </div>
 
       <div className="w-full">
-        <label className="label-Info">Teléfono de contacto</label>
+        <label className="label-Info">Teléfono</label>
         <input
           type="text"
           name="telefono"
+          inputMode="numeric"
           placeholder="987654321"
           value={formData.telefono}
-          onChange={handleChange}
+          onChange={(e) => {
+            // Solo dígitos y máximo 9 caracteres
+            const cleaned = e.target.value.replace(/\D/g, "").slice(0, 9);
+
+            setFormData((prev) => ({ ...prev, telefono: cleaned }));
+            validateField("telefono", cleaned);
+          }}
           className="w-full border rounded-xl px-4 py-2"
         />
+
+        {errors.telefono && (
+          <span className="text-red-500 text-xs">{errors.telefono}</span>
+        )}
       </div>
 
-      <div className="flex items-center gap-2 justify-start mt-10  ">
+      <div className="flex items-center gap-2 justify-start mt-10">
         <input
           type="checkbox"
           name="politica"
@@ -246,9 +319,9 @@ const InfoAccount: React.FC<InfoAccountProps> = ({ rut }) => {
       <div className="col-span-1 md:col-span-2 flex justify-center mt-4">
         <button
           type="submit"
-          disabled={!formData.politica}
+          disabled={!isFormValid()}
           className={`red-button hover:bg-[#DA291C] hover:text-white transition ${
-            !formData.politica ? "opacity-50 cursor-not-allowed" : ""
+            !isFormValid() ? "opacity-50 cursor-not-allowed" : ""
           }`}
         >
           Enviar Solicitud

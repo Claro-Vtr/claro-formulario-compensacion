@@ -12,7 +12,7 @@ const SuccessfulRegistration = () => {
           (window.location.href = "https://www.clarochile.cl/personas/")
         }
       >
-        Volver a Claro.cl
+        Volver a Clarochile.cl
       </button>
     </div>
   );

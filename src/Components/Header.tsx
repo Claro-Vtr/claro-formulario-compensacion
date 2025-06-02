@@ -1,7 +1,7 @@
 const Header = () => {
     return ( 
         <>
-            <div id="container-header" className="container">
+            <div id="container-header" className="container-compensacion">
                 <h1 className="title">Formulario Compensación</h1>
                 <div className="container-questions">                    
                     <p>Si quieres solicitar una devolución de dinero, estás en el lugar correcto. Para procesar tu solicitud, necesitamos que completes este formulario con tus datos bancarios personales y válidos. Solo se realizarán devoluciones al titular del servicio. No se aceptan cuentas de terceros.</p>

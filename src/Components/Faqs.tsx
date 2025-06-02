@@ -1,7 +1,7 @@
 const Faqs = () => {
     return ( 
         <>
-            <div id="container-faqs" className="container">
+            <div id="container-faqs" className="container-compensacion">
                 <h1 className="title">Preguntas Frecuentes</h1>
                 <div className="container-questions">
                     <span className="faq-question">¿Cuándo recibirás la devolución?</span>
